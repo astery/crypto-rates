@@ -6,6 +6,10 @@ defmodule CryptoRates.RatesTest do
     Rates,
   }
 
+  setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Rates)
+  end
+
   describe "empty store" do
     test "should return nil" do
       assert nil == Rates.get_single_rate_by_nearest_time("BTC", "USD", DateTime.utc_now)
@@ -30,6 +34,5 @@ defmodule CryptoRates.RatesTest do
     end
   end
 
-  # TODO: replace
   def from_naive!(datetime), do: DateTime.from_naive!(datetime, "Etc/UTC")
 end
