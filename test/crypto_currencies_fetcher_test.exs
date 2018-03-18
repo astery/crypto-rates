@@ -14,8 +14,8 @@ defmodule CryptoCurrenciesFetcherTest do
     test "should return rates", %{current_time: current_time} do
       use_cassette "crypto_currencies_good" do
         assert {:ok, [
-          %Rate{from: "BTC", to: "USD", rate: 10.0, at: current_time},
-          %Rate{from: "BTC", to: "EUR", rate: 10.0, at: current_time},
+          %Rate{from: "BTC", to: "USD", rate: 8225.28, at: current_time},
+          %Rate{from: "BTC", to: "EUR", rate: 6694.07, at: current_time},
         ]} == CryptoCurrenciesFetcher.get_rates("BTC", ["USD", "EUR"], fn -> current_time end)
       end
     end

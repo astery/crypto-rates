@@ -23,6 +23,7 @@ defmodule CryptoRates.Mixfile do
     [
       {:ecto, "~> 2.0"},
       {:sqlite_ecto2, "~> 2.2"},
+      {:poison, "~> 3.1"},
       {:exvcr, "~> 0.10", only: :test},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
     ]

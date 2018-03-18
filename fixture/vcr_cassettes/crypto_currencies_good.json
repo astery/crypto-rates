@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "request": {
+      "body": "",
+      "headers": [],
+      "method": "get",
+      "options": {
+        "httpc_options": [],
+        "http_options": []
+      },
+      "request_body": "",
+      "url": "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,EUR"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"USD\":8225.28,\"EUR\":6694.07}",
+      "headers": {
+        "cache-control": "public, max-age=29",
+        "connection": "keep-alive",
+        "date": "Sun, 18 Mar 2018 23:12:00 GMT",
+        "server": "nginx/1.4.6 (Ubuntu)",
+        "vary": "Accept-Encoding",
+        "content-length": "29",
+        "content-type": "application/json; charset=UTF-8",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET",
+        "access-control-allow-headers": "Content-Type",
+        "cryptocompare-cache-hit": "true"
+      },
+      "status_code": [
+        "HTTP/1.1",
+        200,
+        "OK"
+      ],
+      "type": "ok"
+    }
+  }
+]
