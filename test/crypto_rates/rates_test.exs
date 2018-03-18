@@ -1,14 +1,10 @@
 defmodule CryptoRates.RatesTest do
-  use ExUnit.Case
+  use CryptoRates.Case
 
   alias CryptoRates.{
     Rate,
     Rates,
   }
-
-  setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Rates)
-  end
 
   describe "empty store" do
     test "should return nil" do
@@ -33,6 +29,4 @@ defmodule CryptoRates.RatesTest do
       assert ^third = Rates.get_single_rate_by_nearest_time("BTC", "USD", from_naive!(~N[2018-01-01 00:31:00.0]))
     end
   end
-
-  def from_naive!(datetime), do: DateTime.from_naive!(datetime, "Etc/UTC")
 end
