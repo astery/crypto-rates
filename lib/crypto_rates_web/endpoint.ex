@@ -3,6 +3,8 @@ defmodule CryptoRatesWeb.Endpoint do
 
   socket "/socket", CryptoRatesWeb.UserSocket
 
+  plug :assign_config_options
+
   plug Plug.Static.IndexHtml, at: "/"
   plug Plug.Static,
     at: "/", from: :crypto_rates, gzip: false,
@@ -38,6 +40,21 @@ defmodule CryptoRatesWeb.Endpoint do
       {:ok, Keyword.put(config, :http, [:inet6, port: port])}
     else
       {:ok, config}
+    end
+  end
+
+  defp assign_config_options(conn, _opts) do
+    conn
+    |> put_private_new(:crypto_rates_current_time_fn, &DateTime.utc_now/0)
+    |> put_private_new(:crypto_rates_calc_rate, &CryptoRates.Rates.convert/4)
+  end
+
+  defp put_private_new(%{private: p} = conn, key, value) do
+    if p[key] do
+      conn
+    else
+      conn
+      |> put_private(key, value)
     end
   end
 end

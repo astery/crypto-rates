@@ -9,6 +9,8 @@ Run service:
 ```
   mix do ecto.create, ecto.migrate
   mix cr.start
+  # in separate shell
+  curl http://localhost:4000/api/calc?from=BTC&to=USD&amount=1000
 ```
 
 Run all tests:
