@@ -1,8 +1,9 @@
 defmodule CryptoCurrenciesFetcher do
+  @behaviour CryptoRates.Fetcher
+
   alias CryptoRates.Rate
   require Logger
 
-  @spec get_rates(String.t, [String.t], (() -> DateTime.t)) :: {:ok, [Rate.t]} | :error
   def get_rates(from, to, get_current_time \\ &DateTime.utc_now/0) do
     try do
       {:ok, result} =

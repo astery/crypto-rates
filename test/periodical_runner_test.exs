@@ -11,7 +11,7 @@ defmodule PeriodicalRunnerTest do
     end
 
     test "should receive 5 messages in 100±5 ms" do
-      Process.sleep(105)
+      Process.sleep(110)
       assert 5 = get_messages_length()
     end
   end

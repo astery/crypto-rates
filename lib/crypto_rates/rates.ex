@@ -8,6 +8,7 @@ defmodule CryptoRates.Rates do
   def save_rates(rates) do
     rates_entries = rates |> Enum.map(&Map.from_struct/1)
     {_count, _} = insert_all("rates", rates_entries, on_conflict: :nothing)
+    CryptoRates.PubSub.notify(rates)
     :ok
   end
 
