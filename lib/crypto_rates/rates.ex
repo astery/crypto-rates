@@ -1,6 +1,6 @@
 defmodule CryptoRates.Rates do
   use Ecto.Repo, otp_app: :crypto_rates
-  import Ecto.Query, [only: [from: 2, where: 3]]
+  import Ecto.Query, [only: [from: 2, where: 3, order_by: 2]]
 
   alias CryptoRates.Rate
 
@@ -32,7 +32,6 @@ defmodule CryptoRates.Rates do
     from(
       r in "rates",
       where: r.from == ^from and r.to == ^to,
-      order_by: r.at,
       limit: 1,
       select: %Rate{from: r.from, to: r.to, rate: r.rate, at: type(r.at, :utc_datetime)}
     )
@@ -41,12 +40,14 @@ defmodule CryptoRates.Rates do
   defp get_left_rate(from, to, at) do
     rate_query(from, to)
     |> where([r], r.at <= ^at)
+    |> order_by(desc: :at)
     |> one
   end
 
   defp get_right_rate(from, to, at) do
     rate_query(from, to)
     |> where([r], r.at >= ^at)
+    |> order_by(asc: :at)
     |> one
   end
 
@@ -57,7 +58,8 @@ defmodule CryptoRates.Rates do
 
   @spec convert(String.t, String.t, float, DateTime.t) :: {:error, any} | {:ok, %{from_amount: float, to_amount: float}}
   def convert(from, to, amount, at) do
-    case get_single_rate_by_nearest_time(from, to, at) do
+    get_single_rate_by_nearest_time(from, to, at)
+    |> case do
       nil -> {:error, "not_found"}
       %{rate: rate} = res ->
         {:ok, res |> Map.from_struct |> Map.merge(%{
