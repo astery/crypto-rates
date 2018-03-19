@@ -8,6 +8,7 @@ defmodule CryptoRates.Application do
       CryptoRates.Rates,
       CryptoRates.PubSub,
       supervisor(CryptoRatesWeb.Endpoint, []),
+      CryptoRatesWeb.RatesChannel.Broadcaster,
     ]
 
     opts = [strategy: :one_for_one, name: CryptoRates.Supervisor]
