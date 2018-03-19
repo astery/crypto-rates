@@ -31,6 +31,11 @@ defmodule CryptoRates.RatesTest do
       assert ^fourth = Rates.get_single_rate_by_nearest_time("BTC", "USD", from_naive!(~N[2018-01-02 00:00:00.0]))
     end
 
+    test "should return all nearest rates to date", %{rates: [first, second, _, _]} do
+      assert [^first, ^second]
+        = Rates.all_rates_by_nearest_time(from_naive!(~N[2017-01-01 00:00:00.0]))
+    end
+
     test "should be able to convert some amount of currency", %{rates: [_, _, %{at: at}, _]} do
       {:ok, result} = Rates.convert("BTC", "USD", 100.0, at)
       assert %{from: "BTC", to: "USD", rate: 11.0, at: at, from_amount: 100.0, to_amount: 1100.0} == result

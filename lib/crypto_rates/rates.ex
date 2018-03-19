@@ -1,6 +1,6 @@
 defmodule CryptoRates.Rates do
   use Ecto.Repo, otp_app: :crypto_rates
-  import Ecto.Query, [only: [from: 2, where: 3, order_by: 2]]
+  import Ecto.Query, [only: [from: 2, where: 3, order_by: 2, group_by: 3]]
 
   alias CryptoRates.Rate
 
@@ -10,6 +10,18 @@ defmodule CryptoRates.Rates do
     {_count, _} = insert_all("rates", rates_entries, on_conflict: :nothing)
     CryptoRates.PubSub.notify(rates)
     :ok
+  end
+
+  @spec all_rates_by_nearest_time(DateTime.t) :: nil | Rate.t
+  def all_rates_by_nearest_time(at) do
+    from(
+      r in "rates",
+      select: %Rate{from: r.from, to: r.to, rate: r.rate, at: type(r.at, :utc_datetime)}
+    )
+    |> where([r], r.at >= ^at)
+    |> order_by(asc: :at)
+    |> group_by([r], r.from and r.to)
+    |> all
   end
 
   @spec get_single_rate_by_nearest_time(String.t, String.t, DateTime.t) :: nil | Rate.t

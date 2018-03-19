@@ -3,6 +3,7 @@ defmodule CryptoRates do
   @to ["USD", "EUR"]
 
   def from_currencies, do: @from
+  def to_currencies, do: @to
 
   def update_rates() do
     @from
