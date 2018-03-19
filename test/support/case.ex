@@ -3,7 +3,7 @@ defmodule CryptoRates.Case do
 
   using do
     quote do
-      import CryptoRates.Case
+      import CryptoRates.Support.Helpers
     end
   end
 
@@ -14,6 +14,4 @@ defmodule CryptoRates.Case do
       Ecto.Adapters.SQL.Sandbox.mode(CryptoRates.Rates, {:shared, self()})
     end
   end
-
-  def from_naive!(datetime), do: DateTime.from_naive!(datetime, "Etc/UTC")
 end
