@@ -7,3 +7,8 @@ config :crypto_rates, CryptoRates.Rates,
   database: "db.test.sqlite",
   pool: Ecto.Adapters.SQL.Sandbox
 
+config :crypto_rates, CryptoRatesWeb.Endpoint,
+  http: [port: 4001],
+  server: false
+
+config :logger, level: :warn

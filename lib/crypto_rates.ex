@@ -7,6 +7,7 @@ defmodule CryptoRates do
     children = [
       CryptoRates.Rates,
       CryptoRates.PubSub,
+      supervisor(CryptoRatesWeb.Endpoint, []),
     ]
 
     opts = [strategy: :one_for_one, name: CryptoRates.Supervisor]
@@ -53,5 +54,10 @@ defmodule CryptoRates do
     fetcher = Application.get_env(:crypto_rates, :fetcher, CryptoCurrenciesFetcher)
 
     Task.async(fn -> fetcher.get_rates(from, @to) end)
+  end
+
+  def config_change(changed, _new, removed) do
+    CryptoRatesWeb.Endpoint.config_change(changed, removed)
+    :ok
   end
 end
