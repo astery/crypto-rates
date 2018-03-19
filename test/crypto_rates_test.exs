@@ -3,9 +3,6 @@ defmodule CryptoRatesTest do
 
   setup do
     CryptoRates.start_periodical_runner
-    on_exit fn ->
-      CryptoRates.terminate_periodical_runner
-    end
     CryptoRates.PubSub.subscribe()
     :ok
   end
