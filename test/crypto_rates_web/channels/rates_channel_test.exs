@@ -13,6 +13,7 @@ defmodule CryptoRatesWeb.RatesChannelTest do
     %{socket: socket}
   end
 
+  @tag :skip # pending
   test "should receive all rates saves before broadcast date was set", %{socket: socket} do
     first_rates = [
       %Rate{from: "BTC", to: "USD", rate: 10.0, at: from_naive!(~N[2018-01-01 00:00:00.000000])},
@@ -31,7 +32,7 @@ defmodule CryptoRatesWeb.RatesChannelTest do
     # should receive nearest rates
     date = from_naive!(~N[2018-01-01 01:00:00.000000])
     push socket, "set_broadcast_date", %{"date" => DateTime.to_string(date)}
-    assert_broadcast("broadcast_date_set", %{date: date})
+    assert_broadcast("broadcast_date_set", %{date: ^date})
     assert_broadcast("crypto_rates", %{rates: ^first_rates})
 
     # should stay mute
