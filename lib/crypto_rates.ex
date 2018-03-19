@@ -1,6 +1,9 @@
 defmodule CryptoRates do
   use Application
 
+  @from ["BTC", "ETH"]
+  @to ["USD", "EUR"]
+
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
@@ -20,6 +23,8 @@ defmodule CryptoRates do
     start
   end
 
+  def from_currencies, do: @from
+
   def start_periodical_runner do
     update_period = Application.get_env(:crypto_rates, :update_period, 1000)
 
@@ -35,9 +40,6 @@ defmodule CryptoRates do
   def terminate_periodical_runner do
     Supervisor.terminate_child(CryptoRates.Supervisor, PeriodicalRunner)
   end
-
-  @from ["BTC", "ETH"]
-  @to ["USD", "EUR"]
 
   defp update_rates() do
     @from

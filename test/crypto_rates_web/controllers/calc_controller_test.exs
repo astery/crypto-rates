@@ -4,8 +4,8 @@ defmodule CryptoRatesWeb.CalcControllerTest do
   # GET /api/calc
   @url "/api/calc"
   @at "2015-01-23T23:50:07Z"
-  @at_datetime DateTime.from_iso8601(@at)
-  @successful_resp %{amount: 10, at: @at}
+  @at_datetime DateTime.from_iso8601(@at) |> elem(1)
+  @successful_resp %{"amount" => 10, "at" => @at}
 
   setup %{conn: conn} do
     conn =
@@ -14,7 +14,7 @@ defmodule CryptoRatesWeb.CalcControllerTest do
         @at_datetime
       end)
       |> put_private(:crypto_rates_calc_rate, fn
-        "BTC", "USD", 1, @at_datetime -> @successful_resp
+        "BTC", "USD", 1.0, @at_datetime -> {:ok, @successful_resp}
       end)
     %{conn: conn}
   end
@@ -36,11 +36,11 @@ defmodule CryptoRatesWeb.CalcControllerTest do
   describe "requested with bad params" do
     test "should return error", %{conn: conn} do
       conn = get conn, @url, bad_params()
-      assert json_response(conn, 401) == %{error: "something happen"}
+      assert json_response(conn, 401) == %{"error" => "something happen"}
     end
   end
 
   defp good_full_params(), do: %{from: "BTC", amount: 1, at: "2015-01-23T23:50:07Z"}
-  defp good_params_without_date(), do: %{from: "BTC"}
+  defp good_params_without_date(), do: %{from: "BTC", amount: 1}
   defp bad_params(), do: %{from: "DDD", at: "not a date"}
 end

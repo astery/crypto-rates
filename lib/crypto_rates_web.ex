@@ -36,7 +36,18 @@ defmodule CryptoRatesWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import CryptoRatesWeb.Gettext
+    end
+  end
+
+  def view do
+    quote do
+      use Phoenix.View,
+        root: "lib/crypto_rates_web/templates",
+        namespace: CryptoRatesWeb
+
+      import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
+
+      import CryptoRatesWeb.Router.Helpers
     end
   end
 
