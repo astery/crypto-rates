@@ -54,4 +54,16 @@ defmodule CryptoRates.Rates do
   defp get_left_and_right_rate(from, to, at) do
     {get_left_rate(from, to, at), get_right_rate(from, to, at)}
   end
+
+  @spec convert(String.t, String.t, float, DateTime.t) :: {:error, any} | {:ok, %{from_amount: float, to_amount: float}}
+  def convert(from, to, amount, at) do
+    case get_single_rate_by_nearest_time(from, to, at) do
+      nil -> {:error, "not_found"}
+      %{rate: rate} = res ->
+        {:ok, res |> Map.from_struct |> Map.merge(%{
+          from_amount: amount,
+          to_amount: amount * rate,
+        })}
+    end
+  end
 end
