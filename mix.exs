@@ -15,7 +15,7 @@ defmodule CryptoRates.Mixfile do
 
   def application do
     [
-      mod: {CryptoRates, []},
+      mod: {CryptoRates.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

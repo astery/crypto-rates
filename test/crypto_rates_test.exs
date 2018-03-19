@@ -2,7 +2,7 @@ defmodule CryptoRatesTest do
   use CryptoRates.Case
 
   setup do
-    CryptoRates.start_periodical_runner
+    CryptoRates.Application.start_periodical_runner
     CryptoRates.PubSub.subscribe()
     :ok
   end
